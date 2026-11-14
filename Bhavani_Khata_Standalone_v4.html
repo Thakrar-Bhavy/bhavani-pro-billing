@@ -1,0 +1,808 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#146c55"><title>Bhavani Khata</title>
+<style>
+:root{--g:#146c55;--p:#e9f5ef;--bg:#f5f7f6;--line:#e6ece8;--muted:#718078}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#17231f;font:14px system-ui,Arial}.app{max-width:1100px;margin:auto;padding:20px}.top,.head,.actions,.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.top{margin-bottom:18px}.brand{display:flex;gap:10px;align-items:center}.logo{background:var(--g);color:white;border-radius:12px;padding:12px;font-weight:800}.brand h1{font-size:19px;margin:0}.brand small,.muted{color:var(--muted)}button{border:0;border-radius:10px;padding:10px 13px;font-weight:650;cursor:pointer}.green{background:var(--g);color:white}.light{background:white;border:1px solid var(--line)}.red{background:#fff0f0;color:#b33}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:15px}.stat,.panel{background:white;border:1px solid var(--line);border-radius:15px;padding:15px}.stat small{color:var(--muted)}.stat strong{display:block;font-size:24px;margin-top:5px}.layout{display:grid;grid-template-columns:310px 1fr;gap:14px}.panel h2{font-size:15px;margin:0}.head{margin-bottom:12px}input,textarea{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;font:inherit;outline:none}textarea{min-height:80px;resize:vertical}.customers{display:grid;gap:7px;margin-top:10px;max-height:570px;overflow:auto}.customer{background:white;border:1px solid var(--line);border-radius:11px;padding:11px;text-align:left;display:flex;justify-content:space-between;gap:8px}.customer.active,.customer:hover{background:var(--p);border-color:#b9d9c8}.customer b,.customer small{display:block}.customer small{color:var(--muted)}.amt{font-weight:750;white-space:nowrap}.greenText{color:var(--g)}.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}.mini{background:#f8faf9;border:1px solid var(--line);border-radius:10px;padding:10px}.mini small{display:block;color:var(--muted)}.mini b{display:block;font-size:16px;margin-top:4px}.tablebox{overflow:auto}table{width:100%;border-collapse:collapse;min-width:480px}th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);font-size:12px}th{color:var(--muted);background:#fafcfb}.right{text-align:right}.composer{margin-top:18px}.hint{font-size:11px;color:var(--muted);margin:7px 0}.preview{display:none;background:#fbfdfc;border:1px dashed #b8d6c6;padding:13px;border-radius:12px;margin-top:12px}.preview.show{display:block}.item{display:grid;grid-template-columns:1fr 95px 30px;gap:6px;margin:7px 0}.item input{padding:8px}.item input.price-missing{border:2px solid #d43b3b;background:#fff1f1}.item .price-note{grid-column:1/-1;color:#c13a3a;font-size:10px;margin-top:-4px}.customer-picker{margin:8px 0 10px}.customer-picker label,.catalog-row label{font-size:11px;color:var(--muted);display:block;margin-bottom:4px}.catalog-list{max-height:55vh;overflow:auto;display:grid;gap:7px;margin-top:12px}.catalog-row{display:grid;grid-template-columns:1fr 105px;gap:8px;padding:8px;border:1px solid var(--line);border-radius:10px}.catalog-row input{padding:8px}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#17231f;color:white;padding:11px 16px;border-radius:10px;display:none}.toast.show{display:block}.modalbg{position:fixed;inset:0;background:#0008;display:none;place-items:center;padding:15px}.modalbg.show{display:grid}.modal{background:white;padding:20px;border-radius:15px;width:min(420px,100%)}.modal label{display:block;margin:10px 0 5px;color:var(--muted);font-size:12px}.empty{padding:30px;text-align:center;color:var(--muted)}#printArea{display:none}
+@media(max-width:700px){.app{padding:12px}.layout{grid-template-columns:1fr}.layout.hideList .listPanel{display:none}.layout:not(.hideList) .detailPanel{display:block}.stats{gap:6px}.stat{padding:10px}.stat strong{font-size:18px}.top button{padding:8px}.mobileBack{display:inline-block!important}.summary{gap:5px}.mini{padding:8px}.mini b{font-size:14px}}
+@page{size:80mm auto;margin:0}
+#printArea.a4-statement{width:100%;font-family:Arial,sans-serif;color:#111}
+@media print{
+ body{background:#fff!important;margin:0!important;padding:0!important;color:#17231f!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ #syncNotice{display:none!important}
+ .app>*:not(#printArea){display:none!important}
+ #printArea{display:block!important;width:80mm!important;max-width:100vw!important;margin:0!important;padding:0!important;font-family:Arial,system-ui,sans-serif;font-size:11px;color:#17231f}
+ #printArea .receipt-head{text-align:center;border-bottom:1px dashed #87958d;padding:0 0 10px;margin-bottom:10px}
+ #printArea .store-name{font-size:19px;font-weight:800;letter-spacing:.2px;margin:0 0 3px}
+ #printArea .store-sub{font-size:10px;color:#53645b;line-height:1.45}
+ #printArea .receipt-title{font-size:13px;font-weight:800;text-align:center;margin:10px 0}
+ #printArea .receipt-meta{display:grid;grid-template-columns:1fr 1fr;gap:4px 8px;margin:8px 0 10px;font-size:10px}
+ #printArea .receipt-meta .wide{grid-column:1/-1}
+ #printArea table{width:100%!important;min-width:0;border-collapse:collapse;table-layout:fixed}
+ #printArea th,#printArea td{border-bottom:1px solid #e2e7e4;padding:6px 2px;font-size:10px;vertical-align:top;overflow-wrap:anywhere}
+ #printArea th{background:#f0f5f2!important;color:#243a30;text-transform:uppercase;font-size:9px}
+ #printArea .right{text-align:right;white-space:nowrap}
+ #printArea .total-row td,#printArea .total-row th{border-top:1.5px solid #263c31;border-bottom:0;font-size:12px;font-weight:800;padding-top:10px}
+ #printArea .receipt-foot{text-align:center;border-top:1px dashed #87958d;margin-top:12px;padding-top:9px;font-size:10px;color:#53645b}
+ #printArea .balance-due{font-size:15px;font-weight:800;text-align:center;background:#edf5f0;padding:9px;border-radius:7px;margin-top:10px}
+ #printArea tr{break-inside:avoid;page-break-inside:avoid}
+}
+.sync-notice{display:none;position:sticky;top:0;z-index:1000;background:#fff3cd;color:#765400;border:1px solid #f0d98a;padding:11px 14px;text-align:center;font-size:13px;box-shadow:0 2px 8px #0001}.sync-notice.show{display:block}
+
+.quick{margin:0 0 14px;background:#fff;border:2px solid var(--g);border-radius:18px;padding:16px;box-shadow:0 4px 16px #146c5522}
+.quick h2{font-size:20px}
+.bigmic{width:100%;font-size:21px;padding:20px;border-radius:14px;background:var(--g);color:#fff;margin:10px 0}
+.bigmic.rec{background:#c62828;animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.7}}
+.quick textarea{min-height:100px;font-size:17px}
+.qrow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.qrow label{font-size:11px;color:var(--muted);display:block;margin-bottom:4px}
+.big{font-size:16px;padding:13px 18px}
+@media(max-width:700px){.qrow{grid-template-columns:1fr}}
+.modal{max-height:92vh;overflow:auto}
+.billprev{max-height:52vh;overflow:auto;border:1px solid var(--line);border-radius:10px;margin:10px 0;background:#f4f4f4;padding:8px}.billprev img{width:100%;display:block;background:#fff}
+#billSheet{position:fixed;left:-10000px;top:0;width:340px;background:#fff;color:#000;font:13px/1.4 system-ui,'Noto Sans Gujarati',Arial,sans-serif;padding:12px 12px 14px;box-sizing:border-box}
+#billSheet .rc-head{text-align:center}#billSheet .rc-name{font-size:18px;font-weight:800;letter-spacing:.3px}
+#billSheet .rc-line{border-top:1px dashed #000;margin:7px 0}
+#billSheet .rc-meta{display:flex;justify-content:space-between;font-size:12px}
+#billSheet .rc-title{text-align:center;font-weight:800;font-size:14px;margin:6px 0}
+#billSheet .rc-who{font-size:13px;margin:3px 0}
+#billSheet table{min-width:0;width:100%;border-collapse:collapse;table-layout:auto}
+#billSheet th{background:#fff;color:#000;border-top:1px solid #000;border-bottom:1px solid #000;padding:4px 2px;font-size:12px;text-align:left}
+#billSheet td{padding:4px 2px;vertical-align:top;border-bottom:1px dotted #888;font-size:13px;color:#000}
+#billSheet .r{text-align:right;white-space:nowrap}
+#billSheet th:first-child,#billSheet td:first-child{width:15%;white-space:nowrap}
+#billSheet .rc-sum{display:flex;justify-content:space-between;font-size:13px;padding:3px 2px}
+#billSheet .rc-total{display:flex;justify-content:space-between;font-size:20px;font-weight:800;border-top:2px solid #000;border-bottom:2px solid #000;padding:6px 2px;margin-top:6px}
+#billSheet .rc-foot{text-align:center;font-size:12px;margin-top:9px}
+</style><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script></head><body><div id="syncNotice" class="sync-notice"></div>
+<div class="app">
+<header class="top"><div class="brand"><div class="logo">B</div><div><h1>Bhavani Khata</h1><small>Simple customer udhar book</small></div></div><div class="actions"><button class="light" id="productsBtn">Products & prices</button><button class="green" id="add">+ Customer</button></div></header>
+<section class="composer quick"><div class="head"><div><h2>⚡ Quick entry</h2><small class="muted">Speak or type — AI understands Gujarati • Hindi • English, even with spelling mistakes</small></div></div>
+<button class="bigmic" id="listen">🎙 Tap & speak</button>
+<textarea id="command" placeholder="Example: rakeshbhai na khatama 2kg khand 10kg bajro 5kg chai pati lakho"></textarea>
+<div class="qrow"><div><label for="entryCustomer">Customer (optional — AI picks it from your words)</label><input id="entryCustomer" list="customerOptions" placeholder="Search customer..."><datalist id="customerOptions"></datalist><datalist id="productOptions"></datalist></div><div><label for="entryDate">Entry date (forgot an entry? pick the old date)</label><input type="date" id="entryDate"></div></div>
+<div class="actions" style="justify-content:flex-start;margin:10px 0;flex-wrap:wrap"><button class="green big" id="understand">✨ Understand</button><select id="voiceLanguage" style="width:auto;max-width:230px;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff"><option value="gu-IN">Gujarati</option><option value="hi-IN">Hindi</option><option value="en-IN">English (India)</option><option value="en-US">English (US)</option><option value="ai">AI Listen (works on any phone)</option></select></div>
+<p class="hint">Say customer, products and weights in one go. You can also say the date ("kal", "gaikale"). Check the result below before saving.</p>
+<div class="preview" id="preview"><div class="head"><b id="previewTitle">Review entry</b><button class="light" id="cancel">Cancel</button></div><label class="muted" style="display:block;font-size:12px;margin:7px 0 4px">Customer (edit if needed)</label><input id="draftCustomer" placeholder="Customer name"><small class="muted" id="previewDesc"></small><div id="parseWarning" class="hint"></div><div id="lines"></div><button class="light" id="addLine">+ Add item</button><div class="head" style="margin-top:12px"><b id="draftTotal">Total ₹0</b><div class="actions"><button class="light" id="cashBill">Cash customer bill</button><button class="green" id="save">Save khata</button></div></div></div></section>
+<section class="stats"><div class="stat"><small>Total pending udhar</small><strong id="total">₹0</strong></div><div class="stat"><small>Customers with balance</small><strong id="count">0</strong></div><div class="stat"><small>Today's entries</small><strong id="today">0</strong></div></section>
+<div class="layout" id="layout"><aside class="panel listPanel"><div class="head"><h2>Customers</h2><small class="muted" id="customerCount">0</small></div><input id="search" placeholder="Search customer..."><div class="customers" id="customers"></div></aside>
+<main class="panel detailPanel"><div id="noCustomer" class="empty">📒<br><b>Select a customer</b><br><small>Choose a name to view their khata.</small></div><div id="detail" style="display:none"><div class="head"><div><button class="light mobileBack" id="back" style="display:none">← Customers</button><h2 id="name"></h2><small class="muted" id="phone"></small></div><div class="actions"><input id="statementMonth" type="month" style="width:auto;max-width:145px;padding:8px"><button class="light" id="pdfLedger">Monthly statement</button><button class="light" id="edit">Edit</button></div></div><div class="summary"><div class="mini"><small>Past months pending</small><b id="past">₹0</b></div><div class="mini"><small>This month pending</small><b id="month">₹0</b></div><div class="mini"><small>Grand total pending</small><b class="greenText" id="balance">₹0</b></div></div><div class="head"><h2>Khata entries</h2><small class="muted" id="entryCount"></small></div><div class="tablebox"><table><thead><tr><th>Date</th><th>Product / details</th><th>Type</th><th class="right">Amount</th><th></th></tr></thead><tbody id="entries"></tbody></table></div></div>
+
+</main></div><div id="printArea"></div></div>
+<div class="modalbg" id="modalbg"><div class="modal"><h3 id="modalTitle">Add customer</h3><label>Customer name</label><input id="customerName" placeholder="e.g. Rakeshbhai"><label>Mobile (optional)</label><input id="customerPhone" placeholder="Mobile number"><div class="actions" style="justify-content:flex-end;margin-top:15px"><button class="light" id="closeModal">Cancel</button><button class="green" id="saveCustomer">Save</button></div></div></div><div class="modalbg" id="productModalBg"><div class="modal" style="width:min(620px,100%)"><div class="head"><h3 style="margin:0">Product price list</h3><button class="light" id="closeProducts">Close</button></div><p class="hint">Add each product's normal selling price. AI entry can use this price when the spoken command does not include an amount. Missing prices must be filled before saving.</p><input id="catalogSearch" placeholder="Search product name..." style="margin:8px 0"><div class="hint" id="catalogCount"></div><div id="catalogRows" class="catalog-list"></div><div class="actions" style="justify-content:space-between;margin-top:12px"><button class="light" id="addProductRow">+ Add product</button><button class="green" id="saveProducts">Save product list</button></div></div></div><div id="billSheet"></div>
+<div class="modalbg" id="billModalBg"><div class="modal"><div class="head"><h3 id="billTitle" style="margin:0">Bill ready</h3><button class="light" id="billClose">Close</button></div><div class="billprev"><img id="billImg" alt="Bill preview"></div><div class="actions" style="justify-content:flex-start;flex-wrap:wrap"><button class="green big" id="billShare">📤 Share on WhatsApp</button><button class="light big" id="billDl">⬇ Download PDF</button></div><small class="muted" id="billName"></small></div></div>
+<div class="modalbg" id="micModalBg"><div class="modal"><h3 id="micTitle"></h3><div id="micBody" style="font-size:13px;line-height:1.6"></div><div class="actions" id="micBtns" style="justify-content:flex-end;margin-top:14px"></div></div></div>
+<div class="toast" id="toast"></div>
+<script>
+const DEFAULT_PRODUCTS=[
+ {name:'તુવેર દાળ',category:'દાળ'},
+ {name:'મગ દાળ',category:'દાળ'},
+ {name:'મગ છડી દાળ',category:'દાળ'},
+ {name:'મસૂર દાળ',category:'દાળ'},
+ {name:'અડદ દાળ',category:'દાળ'},
+ {name:'અડદ દાળ ધોયેલી',category:'દાળ'},
+ {name:'ચણા દાળ',category:'દાળ'},
+ {name:'મિક્સ દાળ',category:'દાળ'},
+ {name:'મગ આખા',category:'દાળ'},
+ {name:'અડદ આખા',category:'દાળ'},
+ {name:'ઘઉં',category:'અનાજ'},
+ {name:'ઘઉંનો લોટ',category:'અનાજ'},
+ {name:'બાજરી',category:'અનાજ'},
+ {name:'જુવાર',category:'અનાજ'},
+ {name:'મકાઈ',category:'અનાજ'},
+ {name:'ચોખા',category:'અનાજ'},
+ {name:'બાસમતી ચોખા',category:'અનાજ'},
+ {name:'કોલમ ચોખા',category:'અનાજ'},
+ {name:'પૌંઆ',category:'અનાજ'},
+ {name:'મમરા',category:'અનાજ'},
+ {name:'રવો',category:'અનાજ'},
+ {name:'મેંદો',category:'અનાજ'},
+ {name:'બેસન',category:'અનાજ'},
+ {name:'દલિયા',category:'અનાજ'},
+ {name:'દારીયા',category:'કઠોળ'},
+ {name:'કાબુલી ચણા',category:'કઠોળ'},
+ {name:'દેશી ચણા',category:'કઠોળ'},
+ {name:'સફેદ વટાણા',category:'કઠોળ'},
+ {name:'લીલા વટાણા',category:'કઠોળ'},
+ {name:'રાજમા',category:'કઠોળ'},
+ {name:'ચોળી',category:'કઠોળ'},
+ {name:'વાલ',category:'કઠોળ'},
+ {name:'મઠ',category:'કઠોળ'},
+ {name:'સોયાબીન',category:'કઠોળ'},
+ {name:'બદામ',category:'ડ્રાય ફ્રૂટ્સ'},
+ {name:'કાજુ',category:'ડ્રાય ફ્રૂટ્સ'},
+ {name:'પિસ્તા',category:'ડ્રાય ફ્રૂટ્સ'},
+ {name:'અખરોટ',category:'ડ્રાય ફ્રૂટ્સ'},
+ {name:'કિસમિસ',category:'ડ્રાય ફ્રૂટ્સ'},
+ {name:'કાળી દ્રાક્ષ',category:'ડ્રાય ફ્રૂટ્સ'},
+ {name:'ખજૂર',category:'ડ્રાય ફ્રૂટ્સ'},
+ {name:'ચારોળી',category:'ડ્રાય ફ્રૂટ્સ'},
+ {name:'મખાણા',category:'ડ્રાય ફ્રૂટ્સ'},
+ {name:'સૂકી જરદાળુ',category:'ડ્રાય ફ્રૂટ્સ'},
+ {name:'સીંગતેલ',category:'તેલ અને ઘી'},
+ {name:'કપાસિયા તેલ',category:'તેલ અને ઘી'},
+ {name:'સૂર્યમુખી તેલ',category:'તેલ અને ઘી'},
+ {name:'સરસવનું તેલ',category:'તેલ અને ઘી'},
+ {name:'તલનું તેલ',category:'તેલ અને ઘી'},
+ {name:'નાળિયેર તેલ',category:'તેલ અને ઘી'},
+ {name:'ઘી',category:'તેલ અને ઘી'},
+ {name:'વનસ્પતિ ઘી',category:'તેલ અને ઘી'},
+ {name:'હળદર પાઉડર',category:'મસાલા'},
+ {name:'લાલ મરચું પાઉડર',category:'મસાલા'},
+ {name:'ધાણા પાઉડર',category:'મસાલા'},
+ {name:'જીરું પાઉડર',category:'મસાલા'},
+ {name:'ધાણા-જીરું પાઉડર',category:'મસાલા'},
+ {name:'ગરમ મસાલો',category:'મસાલા'},
+ {name:'રાઈ',category:'મસાલા'},
+ {name:'જીરું',category:'મસાલા'},
+ {name:'અજમો',category:'મસાલા'},
+ {name:'મેથી દાણા',category:'મસાલા'},
+ {name:'વરીયાળી',category:'મસાલા'},
+ {name:'હીંગ',category:'મસાલા'},
+ {name:'કાળા મરી',category:'મસાલા'},
+ {name:'લવિંગ',category:'મસાલા'},
+ {name:'તજ',category:'મસાલા'},
+ {name:'એલચી',category:'મસાલા'},
+ {name:'તમાલપત્ર',category:'મસાલા'},
+ {name:'તલ',category:'મસાલા'},
+ {name:'સૂકું નાળિયેર',category:'મસાલા'},
+ {name:'ખાંડ',category:'ખાંડ, ગોળ અને મીઠું'},
+ {name:'દેશી ખાંડ',category:'ખાંડ, ગોળ અને મીઠું'},
+ {name:'ગોળ',category:'ખાંડ, ગોળ અને મીઠું'},
+ {name:'ગોળની ભીલી',category:'ખાંડ, ગોળ અને મીઠું'},
+ {name:'મીઠું',category:'ખાંડ, ગોળ અને મીઠું'},
+ {name:'સંચળ',category:'ખાંડ, ગોળ અને મીઠું'},
+ {name:'સિંધવ મીઠું',category:'ખાંડ, ગોળ અને મીઠું'},
+ {name:'ચણાનો લોટ',category:'લોટ અને અન્ય વસ્તુઓ'},
+ {name:'મકાઈનો લોટ',category:'લોટ અને અન્ય વસ્તુઓ'},
+ {name:'બાજરીનો લોટ',category:'લોટ અને અન્ય વસ્તુઓ'},
+ {name:'જુવારનો લોટ',category:'લોટ અને અન્ય વસ્તુઓ'},
+ {name:'રાગીનો લોટ',category:'લોટ અને અન્ય વસ્તુઓ'},
+ {name:'સાબુદાણા',category:'લોટ અને અન્ય વસ્તુઓ'},
+ {name:'પાપડ',category:'લોટ અને અન્ય વસ્તુઓ'},
+ {name:'સેવ',category:'લોટ અને અન્ય વસ્તુઓ'},
+ {name:'વેફર',category:'લોટ અને અન્ય વસ્તુઓ'},
+ {name:'ફ્રાયમ્સ',category:'લોટ અને અન્ય વસ્તુઓ'},
+ {name:'અથાણું',category:'લોટ અને અન્ય વસ્તુઓ'},
+ {name:'મુખવાસ',category:'લોટ અને અન્ય વસ્તુઓ'},
+ {name:'ચા પત્તી',category:'ચા અને અન્ય વસ્તુઓ'},
+ {name:'કોફી',category:'ચા અને અન્ય વસ્તુઓ'},
+ {name:'બિસ્કિટ',category:'ચા અને અન્ય વસ્તુઓ'},
+ {name:'ટોસ્ટ',category:'ચા અને અન્ય વસ્તુઓ'},
+ {name:'નૂડલ્સ',category:'ચા અને અન્ય વસ્તુઓ'},
+ {name:'સોસ',category:'ચા અને અન્ય વસ્તુઓ'},
+ {name:'જામ',category:'ચા અને અન્ય વસ્તુઓ'},
+ {name:'મધ',category:'ચા અને અન્ય વસ્તુઓ'},
+ {name:'બ્રેડ',category:'ચા અને અન્ય વસ્તુઓ'},
+ {name:'ચોકલેટ',category:'ચા અને અન્ય વસ્તુઓ'},
+ {name:'કપડાં ધોવાનો પાઉડર',category:'સફાઈની વસ્તુઓ'},
+ {name:'કપડાં ધોવાનો સાબુ',category:'સફાઈની વસ્તુઓ'},
+ {name:'વાસણ ધોવાનો પાઉડર',category:'સફાઈની વસ્તુઓ'},
+ {name:'વાસણ ધોવાનો સાબુ',category:'સફાઈની વસ્તુઓ'},
+ {name:'ડિશવોશ લિક્વિડ',category:'સફાઈની વસ્તુઓ'},
+ {name:'ફિનાઇલ',category:'સફાઈની વસ્તુઓ'},
+ {name:'એસિડ',category:'સફાઈની વસ્તુઓ'},
+ {name:'બ્લીચ',category:'સફાઈની વસ્તુઓ'},
+ {name:'ફ્લોર ક્લીનર',category:'સફાઈની વસ્તુઓ'},
+ {name:'ટોયલેટ ક્લીનર',category:'સફાઈની વસ્તુઓ'},
+ {name:'હાથ ધોવાનો સાબુ',category:'સફાઈની વસ્તુઓ'},
+ {name:'ઝાડુ',category:'સફાઈની વસ્તુઓ'},
+];
+const STORE='bhavani_khata_static_v1';
+let db=read(),selected=null,draft=null,recognition=null,editing=null;
+function read(){try{let d=JSON.parse(localStorage.getItem(STORE))||{};d.customers=d.customers||[];d.entries=d.entries||[];d.products=d.products||DEFAULT_PRODUCTS.map(p=>({id:id(),name:p.name,category:p.category,salePrice:''}));return d}catch{return{customers:[],entries:[],products:DEFAULT_PRODUCTS.map(p=>({id:id(),name:p.name,category:p.category,salePrice:''}))}}}
+let serverBase=null;
+let lastSnapshot=JSON.parse(JSON.stringify(db));
+let pendingOps=readPending();
+let syncBusy=false;
+let retryTimer=null;
+let bootstrapped=false;
+let refreshBusy=false;
+function readPending(){try{return JSON.parse(localStorage.getItem('bhavani_khata_pending')||'[]')}catch{return[]}}
+function storePending(){try{localStorage.setItem('bhavani_khata_pending',JSON.stringify(pendingOps))}catch(e){console.error('Could not store offline queue',e)}}
+function saveLocalCache(){try{localStorage.setItem(STORE,JSON.stringify(db))}catch(e){toast('Temporary phone storage is full. Keep internet connected.');console.error(e)}}
+const APPS_SCRIPT_URL='https://script.google.com/macros/s/AKfycbyjUbzwyZVvZY0z4-2QcQmqi65ZfGXbosQAY3WDMWVrGD6e98BhXg7kaevsibPaCNXt4g/exec';
+function apiUrl(){return APPS_SCRIPT_URL.includes('/exec')?APPS_SCRIPT_URL:''}
+function setSyncStatus(){
+ const el=document.getElementById('syncNotice'); if(!el)return;
+ const count=pendingOps.length, connected=!!serverBase;
+ el.classList.toggle('show',count>0||!navigator.onLine||!apiUrl()||!connected);
+ if(count>0) el.innerHTML='<b>⚠ Not saved to Google Sheets yet.</b> '+count+' change(s) waiting on this phone. Keep this page open; automatic retry is active.';
+ else if(!navigator.onLine) el.innerHTML='<b>Internet disconnected.</b> Changes are being saved temporarily on this phone and will sync when internet returns.';
+ else if(!apiUrl()) el.innerHTML='<b>Google Sheets is not connected.</b> The Google Sheets URL has not been configured in the website yet.';
+ else if(!connected) el.innerHTML='<b>Connecting to Google Sheets…</b> Data is not confirmed saved yet.';
+ else el.classList.remove('show');
+}
+function jsonp(params){return new Promise((resolve,reject)=>{
+ const base=apiUrl(); if(!base)return reject(new Error('Apps Script URL missing'));
+ const cb='bhavaniCb_'+Date.now()+'_'+Math.floor(Math.random()*1e6),script=document.createElement('script');
+ const timer=setTimeout(()=>{cleanup();reject(new Error('Google Apps Script timed out'))},20000);
+ function cleanup(){clearTimeout(timer);delete window[cb];script.remove()}
+ window[cb]=data=>{cleanup();resolve(data)};
+ script.onerror=()=>{cleanup();reject(new Error('Could not reach Google Sheets'))};
+ params.callback=cb;
+ script.src=base+(base.includes('?')?'&':'?')+new URLSearchParams(params).toString();
+ document.head.appendChild(script);
+})}
+function enqueue(op){pendingOps.push(op);storePending();saveLocalCache();setSyncStatus();trySync()}
+function queueChanges(before,after){
+ ['customers','products','entries'].forEach(kind=>{
+  const old=before[kind]||[],now=after[kind]||[];
+  now.forEach(item=>{
+   const prev=old.find(x=>x.id===item.id);
+   if(!prev||JSON.stringify(prev)!==JSON.stringify(item)){
+    const action=kind==='customers'?'upsertCustomer':kind==='products'?'upsertProduct':'saveEntry';
+    pendingOps.push({action,item});
+   }
+  });
+  if(kind==='entries') old.forEach(item=>{if(!now.some(x=>x.id===item.id))pendingOps.push({action:'deleteEntry',id:item.id})});
+ });
+ storePending();
+}
+function saveDB(){
+ const before=lastSnapshot;
+ queueChanges(before,db);
+ lastSnapshot=JSON.parse(JSON.stringify(db));
+ if(pendingOps.length||!serverBase)saveLocalCache();
+ render();updateCustomerOptions();setSyncStatus();
+ trySync();
+}
+function replayPendingOnCache(){
+ pendingOps.forEach(op=>{
+  const key=op.action==='upsertCustomer'?'customers':op.action==='upsertProduct'?'products':'entries';
+  if(op.action==='deleteEntry'){db.entries=db.entries.filter(x=>x.id!==op.id);return;}
+  if(op.item){const arr=db[key]||(db[key]=[]),i=arr.findIndex(x=>x.id===op.item.id);if(i>=0)arr[i]=op.item;else arr.push(op.item);}
+ });
+ lastSnapshot=JSON.parse(JSON.stringify(db));
+}
+replayPendingOnCache();
+function mergePendingInto(data){
+ const merged={customers:[...(data.customers||[])],products:[...(data.products||[])],entries:[...(data.entries||[])]};
+ pendingOps.forEach(op=>{
+  const key=op.action==='upsertCustomer'?'customers':op.action==='upsertProduct'?'products':'entries';
+  if(op.action==='deleteEntry'){merged.entries=merged.entries.filter(x=>x.id!==op.id);return}
+  if(op.item){const i=merged[key].findIndex(x=>x.id===op.item.id);if(i>=0)merged[key][i]=op.item;else merged[key].push(op.item)}
+ });
+ return merged;
+}
+async function refreshFromSheet(){
+ if(!apiUrl()||!navigator.onLine||refreshBusy)return false;
+ refreshBusy=true;
+ try {
+ const res=await jsonp({action:'bootstrap'});
+ if(!res||res.ok!==true||!res.data)throw new Error(res?.error||'Could not load Google Sheets data');
+ const server=res.data;
+ if(!bootstrapped && !(server.products||[]).length){
+  const seeded=(db.products&&db.products.length?db.products:DEFAULT_PRODUCTS.map(p=>({id:id(),name:p.name,category:p.category,salePrice:''})));
+  seeded.forEach(item=>{if(!pendingOps.some(op=>op.action==='upsertProduct'&&op.item&&op.item.id===item.id))pendingOps.push({action:'upsertProduct',item});});storePending();
+ }
+ db=mergePendingInto(server);
+ serverBase={customers:server.customers||[],products:server.products||[],entries:server.entries||[]};
+ lastSnapshot=JSON.parse(JSON.stringify(db));
+ bootstrapped=true;
+ saveLocalCache();render();updateCustomerOptions();setSyncStatus();
+ return true;
+ } finally { refreshBusy=false; }
+}
+async function trySync(){
+ if(syncBusy||!navigator.onLine||!apiUrl()||!pendingOps.length)return;
+ syncBusy=true;setSyncStatus();
+ try{
+  while(pendingOps.length&&navigator.onLine){
+   const batch=pendingOps.slice(0,10);
+   const res=await jsonp({action:'batch',ops:JSON.stringify(batch)});
+   if(!res||res.ok!==true)throw new Error(res?.error||'Save was not confirmed');
+   pendingOps.splice(0,batch.length);storePending();setSyncStatus();
+  }
+  await refreshFromSheet();
+ }catch(err){console.warn('Khata sync pending:',err)}
+ finally{syncBusy=false;setSyncStatus();}
+}
+async function connectAndLoad(){
+ if(!apiUrl()){serverBase=null;setSyncStatus();return}
+ try{await refreshFromSheet();await trySync()}catch(e){serverBase=null;setSyncStatus();console.warn('Google Sheets connection:',e)}
+}
+function scheduleRetry(){if(retryTimer)clearInterval(retryTimer);retryTimer=setInterval(()=>{if(!navigator.onLine||!apiUrl())return;if(pendingOps.length)trySync();else refreshFromSheet().catch(err=>console.warn('Background refresh:',err))},20000)}
+window.addEventListener('online',()=>{setSyncStatus();connectAndLoad()});
+window.addEventListener('offline',setSyncStatus);
+function id(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function money(n){return '₹'+Number(n||0).toLocaleString('en-IN',{maximumFractionDigits:2})}
+function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function mk(d){return (d||'').slice(0,7)}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function toast(s){let t=document.getElementById('toast');t.textContent=s;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2300)}
+function fmt(d){let a=d.split('-');return a[2]+'/'+a[1]+'/'+a[0]}
+function bal(cid){return db.entries.filter(e=>e.customerId===cid).reduce((s,e)=>s+(e.type==='credit'?e.amount:-e.amount),0)}
+function render(){let q=document.getElementById('search').value.toLowerCase(),cs=[...db.customers].sort((a,b)=>a.name.localeCompare(b.name));document.getElementById('customerCount').textContent=cs.length+' total';document.getElementById('customers').innerHTML=cs.filter(c=>c.name.toLowerCase().includes(q)||(c.phone||'').includes(q)).map(c=>`<button class="customer ${selected===c.id?'active':''}" data-id="${c.id}"><span><b>${esc(c.name)}</b><small>${esc(c.phone||'No mobile')}</small></span><span class="amt ${bal(c.id)>0?'greenText':''}">${money(bal(c.id))}</span></button>`).join('')||'<div class="empty">No customers yet. Add your first customer.</div>';document.querySelectorAll('.customer').forEach(b=>b.onclick=()=>select(b.dataset.id));document.getElementById('total').textContent=money(cs.reduce((s,c)=>s+Math.max(0,bal(c.id)),0));document.getElementById('count').textContent=cs.filter(c=>bal(c.id)>0).length;document.getElementById('today').textContent=db.entries.filter(e=>e.date===today()).length;detail()}
+function updateCustomerOptions(){let dl=document.getElementById('customerOptions');if(dl)dl.innerHTML=db.customers.map(c=>`<option value="${esc(c.name)}"></option>`).join('');let pl=document.getElementById('productOptions');if(pl)pl.innerHTML=(db.products||[]).map(p=>`<option value="${esc(p.name)}"></option>`).join('')}
+function customerFromPicker(){let n=document.getElementById('entryCustomer').value.trim();return db.customers.find(c=>c.name.toLowerCase()===n.toLowerCase())||null}
+function select(cid){selected=cid;const c=db.customers.find(x=>x.id===cid);if(c)document.getElementById('entryCustomer').value=c.name;document.getElementById('layout').classList.add('hideList');render()}
+function detail(){let c=db.customers.find(x=>x.id===selected);document.getElementById('noCustomer').style.display=c?'none':'block';document.getElementById('detail').style.display=c?'block':'none';if(!c)return;document.getElementById('name').textContent=c.name;document.getElementById('phone').textContent=c.phone||'';let es=db.entries.filter(e=>e.customerId===c.id),m=mk(today()),sum=a=>a.reduce((s,e)=>s+(e.type==='credit'?e.amount:-e.amount),0);document.getElementById('past').textContent=money(sum(es.filter(e=>mk(e.date)<m)));document.getElementById('month').textContent=money(sum(es.filter(e=>mk(e.date)===m)));document.getElementById('balance').textContent=money(bal(c.id));document.getElementById('entryCount').textContent=es.length+' entries';document.getElementById('entries').innerHTML=[...es].sort((a,b)=>b.date.localeCompare(a.date)||b.createdAt-a.createdAt).map(e=>`<tr><td>${fmt(e.date)}</td><td>${esc(e.description)}</td><td>${e.type==='credit'?'Udhar':'Payment'}</td><td class="right ${e.type==='credit'?'greenText':''}">${e.type==='credit'?'+':'−'}${money(e.amount)}</td><td><button class="red" style="padding:4px 8px" onclick="delEntry('${e.id}')">×</button></td></tr>`).join('')||'<tr><td colspan="5">No entries yet</td></tr>'}
+function delEntry(eid){if(confirm('Delete this entry?')){db.entries=db.entries.filter(e=>e.id!==eid);saveDB()}}
+function modal(c){editing=c?.id||null;document.getElementById('modalTitle').textContent=c?'Edit customer':'Add customer';document.getElementById('customerName').value=c?.name||'';document.getElementById('customerPhone').value=c?.phone||'';document.getElementById('modalbg').classList.add('show')}
+function saveCustomer(){let n=document.getElementById('customerName').value.trim(),p=document.getElementById('customerPhone').value.trim();if(!n)return toast('Enter customer name');if(editing){let c=db.customers.find(x=>x.id===editing);c.name=n;c.phone=p}else{let c={id:id(),name:n,phone:p};db.customers.push(c);selected=c.id}document.getElementById('modalbg').classList.remove('show');saveDB();document.getElementById('layout').classList.add('hideList')}
+function normalizeDigits(value){
+ const gujarati='૦૧૨૩૪૫૬૭૮૯', hindi='०१२३४५६७८९';
+ return String(value).replace(/[૦-૯]/g,c=>String(gujarati.indexOf(c))).replace(/[०-९]/g,c=>String(hindi.indexOf(c)));
+}
+function cleanDescription(value){
+ return String(value||'').replace(/\b(?:rs|rupees?|inr|રૂપિયા|રૂપીયા)\b/ig,' ')
+ .replace(/(?:₹|રૂ\.?)/g,' ').replace(/\s+/g,' ').replace(/^[\s,;:-]+|[\s,;:-]+$/g,'').trim();
+}
+function parsePriceChunk(chunk){
+ // A currency marker is the strongest signal that a number is a price, not a weight/quantity.
+ const priceRe=/(?:₹|rs\.?|rupees?|inr|રૂપિયા|રૂપીયા)\s*([\d,]+(?:\.\d+)?)|([\d,]+(?:\.\d+)?)\s*(?:₹|rs\.?|rupees?|inr|રૂપિયા|રૂપીયા)/ig;
+ const matches=[...chunk.matchAll(priceRe)];
+ const results=[];
+ if(matches.length===1){
+  const m=matches[0], amount=Number((m[1]||m[2]).replace(/,/g,''));
+  const desc=cleanDescription(chunk.slice(0,m.index)+' '+chunk.slice(m.index+m[0].length));
+  if(amount>0&&desc)results.push({description:desc,amount});
+  return results;
+ }
+ if(matches.length>1){
+  const prefix=chunk.slice(0,matches[0].index);
+  const prefixHasItem=/[A-Za-z\u0A80-\u0AFF]/u.test(prefix.replace(/[\d.,\s]/g,'')); // product text before first price
+  for(let i=0;i<matches.length;i++){
+   const m=matches[i],prev=matches[i-1],next=matches[i+1];
+   let desc=prefixHasItem&&i===0?prefix:(i>0?chunk.slice(prev.index+prev[0].length,m.index):chunk.slice(m.index+m[0].length,next?next.index:chunk.length));
+   if(i===matches.length-1&&!prefixHasItem&&i>0)desc=chunk.slice(matches[i-1].index+matches[i-1][0].length,m.index);
+   const amount=Number((m[1]||m[2]).replace(/,/g,''));
+   desc=cleanDescription(desc);
+   if(amount>0&&desc)results.push({description:desc,amount});
+  }
+  return results;
+ }
+ // Fallback: accept a final standalone number as a price only if it is not attached to a weight/quantity unit.
+ const bare=[...chunk.matchAll(/(?:^|\s)([\d,]+(?:\.\d+)?)(?!\s*(?:kg|કિગ્રા|કિલો|g|ગ્રામ|gm|ltr|લિટર|ml|પીસ|પેકેટ)\b)(?=\s*$)/ig)];
+ if(bare.length){
+  const m=bare[bare.length-1],amount=Number(m[1].replace(/,/g,'')),desc=cleanDescription(chunk.slice(0,m.index)+chunk.slice(m.index+m[0].length));
+  if(amount>0&&desc)return [{description:desc,amount}];
+ }
+ return [];
+}
+function normalizeProductText(v){return String(v||'').toLowerCase().replace(/[^\p{L}\p{N}]/gu,'')}
+const PRODUCT_ALIASES={
+ 'khand':'ખાંડ','khaand':'ખાંડ','sugar':'ખાંડ','bajro':'બાજરી','bajra':'બાજરી','bajri':'બાજરી','chokha':'ચોખા','chawal':'ચોખા','chaawal':'ચોખા','rice':'ચોખા',
+ 'basmati rice':'બાસમતી ચોખા','basmati chokha':'બાસમતી ચોખા','kolam rice':'કોલમ ચોખા',
+ 'tuver dal':'તુવેર દાળ','toor dal':'તુવેર દાળ','tur dal':'તુવેર દાળ','tuvar':'તુવેર દાળ',
+ 'moong dal':'મગ દાળ','mung dal':'મગ દાળ','mag dal':'મગ દાળ','chana dal':'ચણા દાળ','चना दाल':'ચણા દાળ',
+ 'masoor dal':'મસૂર દાળ','urad dal':'અડદ દાળ','adad dal':'અડદ દાળ','udad dal':'અડદ દાળ',
+ 'gehu':'ઘઉં','gehun':'ઘઉં','wheat':'ઘઉં','atta':'ઘઉંનો લોટ','wheat flour':'ઘઉંનો લોટ',
+ 'bajra':'બાજરી','bajri':'બાજરી','jowar':'જુવાર','juvar':'જુવાર','makai':'મકાઈ','maize':'મકાઈ',
+ 'oil':'સીંગતેલ','sing tel':'સીંગતેલ','singtel':'સીંગતેલ','groundnut oil':'સીંગતેલ','peanut oil':'સીંગતેલ',
+ 'salt':'મીઠું','mithu':'મીઠું','namak':'મીઠું','tea':'ચા પત્તી','chai':'ચા પત્તી','chai patti':'ચા પત્તી','tea powder':'ચા પત્તી',
+ 'besan':'બેસન','gram flour':'ચણાનો લોટ','poha':'પૌંઆ','pauva':'પૌંઆ','mamra':'મમરા','murmura':'મમરા',
+ 'jaggery':'ગોળ','gol':'ગોળ','gud':'ગોળ','kabuli chana':'કાબુલી ચણા','chickpeas':'કાબુલી ચણા',
+ 'rajma':'રાજમા','kidney beans':'રાજમા','safed vatana':'સફેદ વટાણા','white peas':'સફેદ વટાણા',
+ 'maida':'મેંદો','rava':'રવો','suji':'રવો','semolina':'રવો','badam':'બદામ','almond':'બદામ',
+ 'kaju':'કાજુ','cashew':'કાજુ','pista':'પિસ્તા','pistachio':'પિસ્તા','kishmish':'કિસમિસ','raisins':'કિસમિસ',
+ 'jeera':'જીરું','jira':'જીરું','cumin':'જીરું','haldi':'હળદર પાઉડર','turmeric':'હળદર પાઉડર',
+ 'mirchi powder':'લાલ મરચું પાઉડર','red chilli powder':'લાલ મરચું પાઉડર',
+ 'dhana powder':'ધાણા પાઉડર','coriander powder':'ધાણા પાઉડર','washing powder':'કપડાં ધોવાનો પાઉડર',
+ 'detergent':'કપડાં ધોવાનો પાઉડર','soap':'કપડાં ધોવાનો સાબુ','dishwash':'વાસણ ધોવાનો સાબુ'
+};
+function findCatalogProduct(description){
+ const raw=String(description||'').trim();
+ const stripped=raw.replace(/^\s*\d+(?:\.\d+)?\s*(?:kg|કિલો|કિગ્રા|કિ\.ગ્રા|gm|g|ગ્રામ|લિટર|ltr|litre|ml|packet|પેકેટ|પીસ|pcs)?\s*/i,'');
+ const clean=normalizeProductText(stripped);
+ const products=db.products||[];
+ let found=products.find(p=>normalizeProductText(p.name)===clean);
+ if(found)return found;
+ const lower=raw.toLowerCase();
+ const alias=Object.keys(PRODUCT_ALIASES).sort((x,y)=>y.length-x.length).find(k=>lower.includes(k));
+ if(alias){
+  const target=normalizeProductText(PRODUCT_ALIASES[alias]);
+  found=products.find(p=>normalizeProductText(p.name)===target);
+  if(found)return found;
+ }
+ found=products.find(p=>{const n=normalizeProductText(p.name);return n.length>2&&(clean.includes(n)||n.includes(clean)&&clean.length>=4)});
+ if(found)return found;
+ // Conservative token overlap fallback; require a strong match to avoid wrong products.
+ const tokens=clean.match(/[a-z0-9]+|[\u0A80-\u0AFF]+/gu)||[];
+ let best=null,bestScore=0;
+ products.forEach(p=>{
+  const pn=normalizeProductText(p.name),pt=pn.match(/[a-z0-9]+|[\u0A80-\u0AFF]+/gu)||[];
+  const common=tokens.filter(t=>pt.some(x=>x===t||x.includes(t)&&t.length>2)).length;
+  const score=common/Math.max(tokens.length,pt.length,1);
+  if(score>bestScore){bestScore=score;best=p}
+ });
+ return bestScore>=0.72?best:null;
+}
+function extractQuantity(desc){
+ const text=normalizeDigits(String(desc||''));
+ const unitPattern='kg|કિલો|કિગ્રા|કિ\.ગ્રા|કિલોગ્રામ|gm|g|ગ્રામ|ગ્રા|લિટર|ltr|litre|liter|ml|packet|પેકેટ|પીસ|pcs|piece|pieces|નંગ';
+ let m=text.match(new RegExp('^\\s*(\\d+(?:\\.\\d+)?)\\s*('+unitPattern+')?\\s*','i'));
+ if(!m)m=text.match(new RegExp('(\\d+(?:\\.\\d+)?)\\s*('+unitPattern+')','i'));
+ if(!m)return {qty:1,unit:''};
+ let q=Number(m[1]),u=(m[2]||'').toLowerCase();
+ if(['gm','g','ગ્રામ','ગ્રા'].includes(u)){q/=1000;u='kg'}
+ if(['ml'].includes(u)){q/=1000;u='ltr'}
+ if(['કિલો','કિગ્રા','કિ.ગ્રા','કિલોગ્રામ'].includes(u))u='kg';
+ if(['liter','litre'].includes(u))u='ltr';
+ if(['piece','pieces','પીસ','નંગ'].includes(u))u='pc';
+ return {qty:q||1,unit:u};
+}
+function parseCatalogChunk(chunk){
+ const explicit=parsePriceChunk(chunk);
+ if(explicit.length){
+  return explicit.map(line=>{
+   const q=extractQuantity(line.description), product=findCatalogProduct(line.description);
+   return {...line,productId:product?.id||'',productName:product?.name||'',quantity:q.qty,unit:q.unit||product?.unit||'',priceSource:'spoken'};
+  });
+ }
+ const q=extractQuantity(chunk), product=findCatalogProduct(chunk);
+ const description=chunk.trim();
+ if(product){
+  const hasPrice=product.salePrice!==''&&Number(product.salePrice)>0;
+  const amount=hasPrice?Number(product.salePrice)*q.qty:null;
+  return [{description,amount,productId:product.id,productName:product.name,quantity:q.qty,unit:q.unit||product.unit||'',priceSource:hasPrice?'catalog':'missing'}];
+ }
+ return [{description,amount:null,productId:'',productName:'',quantity:q.qty,unit:q.unit,priceSource:'missing'}];
+}
+function splitChunkByKnownProducts(chunk){
+ // If speech drops punctuation, split at a second known product mention instead of
+ // accidentally attaching one item's price to two product names.
+ const aliases=Object.keys(PRODUCT_ALIASES).concat((db.products||[]).map(p=>p.name))
+  .filter(Boolean).sort((a,b)=>b.length-a.length);
+ const hits=[];
+ aliases.forEach(alias=>{
+  const re=new RegExp('(^|\\s)('+alias.replace(/[.*+?^${}()|[\\]\\]/g,'\\$&')+')(?=\\s|$)','ig');
+  let m; while((m=re.exec(chunk))!==null){
+   const start=m.index+m[1].length;
+   if(!hits.some(h=>Math.abs(h.start-start)<2))hits.push({start,end:start+m[2].length,alias});
+  }
+ });
+ hits.sort((a,b)=>a.start-b.start);
+ const unique=[];
+ hits.forEach(h=>{if(!unique.length||h.start>=unique[unique.length-1].end)unique.push(h)});
+ if(unique.length<2)return [chunk];
+ const cuts=unique.slice(1).map(h=>h.start),out=[];let last=0;
+ cuts.forEach(c=>{const part=chunk.slice(last,c).trim();if(part)out.push(part);last=c});
+ const tail=chunk.slice(last).trim();if(tail)out.push(tail);
+ return out.length>1?out:[chunk];
+}
+function canonicalProductName(description){
+ const found=findCatalogProduct(description);if(found)return found.name;
+ let text=String(description||'').trim().replace(/^\\s*\\d+(?:\\.\\d+)?\\s*(?:kg|કિલો|કિગ્રા|gm|g|ગ્રામ|ltr|litre|liter|ml|pc|pcs|પીસ)?\\s*/i,'');
+ const low=text.toLowerCase();
+ const alias=Object.keys(PRODUCT_ALIASES).sort((a,b)=>b.length-a.length).find(k=>new RegExp('(^|\\s)'+k.replace(/[.*+?^${}()|[\\]\\]/g,'\\\\$&')+'($|\\s)','i').test(low));
+ return alias?PRODUCT_ALIASES[alias]:text;
+}
+function learnProductsFromBill(lines){
+ let changed=false;
+ (lines||[]).forEach(line=>{
+  const name=canonicalProductName(line.description);if(!name)return;
+  const qty=Number(line.quantity||extractQuantity(line.description).qty||1);
+  const total=Number(line.amount||0);if(!(total>0)||!(qty>0))return;
+  const unitPrice=Math.round((total/qty)*100)/100;
+  let product=(db.products||[]).find(p=>p.id===line.productId)||findCatalogProduct(name);
+  if(!product){
+   product={id:id(),name,category:'Other',salePrice:unitPrice,updatedAt:Date.now()};
+   db.products.push(product);line.productId=product.id;changed=true;
+  }else{
+   line.productId=product.id;
+   if(Number(product.salePrice)!==unitPrice){product.salePrice=unitPrice;product.updatedAt=Date.now();changed=true;}
+  }
+ });
+ if(changed)saveDB();
+}
+
+function parse(raw){
+ let t=normalizeDigits(raw).trim();if(!t)return null;
+ const low=t.toLowerCase();
+ const paymentWords=/(?:paid|payment|jama|જમા|આપ્યા|ભર્યા|ચૂકવ્યા|ચૂકવણી|પૈસા આપ્યા|રકમ મળી|received)/i;
+ const type=paymentWords.test(low)?'payment':'credit';
+ let customer=[...db.customers].sort((a,b)=>b.name.length-a.name.length).find(c=>low.includes(c.name.toLowerCase()))||null;
+ let work=t;
+ if(customer)work=work.replace(new RegExp(customer.name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'ig'),' ');
+ work=work.replace(/(?:ખાતામાં લખો|ખાતામા લખો|ખાતામાં નાખો|ખાતે લખો|ખાતામાં|ખાતામા|ખાતું|ખાતા|ખાતો|ખતામાં|ઉધાર|જમા કરો|પેમેન્ટ|કેશ બિલ|cash bill|bill|khatama lakho|khata ma lakho|udhar|khata|credit|payment|paid|jama|received|ને|ના ખાતામાં|ના ખતામાં)/ig,' ');
+ // Split only at strong item separators, not ordinary spaces inside product names.
+ const rawChunks=work.split(/[,;\n]+|\s+(?:and|અને|પછી)\s+/i).map(x=>x.trim()).filter(Boolean);
+ const chunks=rawChunks.flatMap(splitChunkByKnownProducts);
+ let lines=chunks.flatMap(parseCatalogChunk);
+ if(type==='payment'){
+  const pm=t.match(/(?:₹|rs\.?|rupees?|inr|રૂપિયા|રૂપીયા)?\s*([\d,]+(?:\.\d+)?)/i);
+  if(pm){const amount=Number(pm[1].replace(/,/g,''));if(amount>0)lines=[{description:'Payment received',amount,productId:'',quantity:1,unit:'',rate:amount,priceSource:'spoken'}]}
+ }
+ let detectedCustomer=customer;
+ if(!detectedCustomer){
+  const first=t.match(/^\s*([\p{L}][\p{L}\s]{1,30}?)\s+(?=\d|(?:2|3|4|5)\s*(?:kg|કિલો))/iu);
+  if(first){let candidate=first[1].replace(/(?:ભાઈ|ભાઇ|બેન|બહેન)$/,'').trim();if(candidate&&!/^(2|3|4|5)$/.test(candidate))detectedCustomer={id:null,name:candidate,phone:''}}
+ }
+ return {type,customer:detectedCustomer,lines,raw:t,needsPrice:lines.some(l=>!(Number(l.amount)>0))};
+}
+function lev(a,b){const m=[];for(let i=0;i<=a.length;i++)m[i]=[i];for(let j=1;j<=b.length;j++)m[0][j]=j;for(let i=1;i<=a.length;i++)for(let j=1;j<=b.length;j++)m[i][j]=Math.min(m[i-1][j]+1,m[i][j-1]+1,m[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return m[a.length][b.length]}
+function normName(s){return String(s||'').toLowerCase().replace(/(?:ભાઈ|ભાઇ|બેન|બહેન|bhai|bhain|ben|bhabhi)$/i,'').replace(/[^\p{L}\p{M}]/gu,'')}
+function matchCustomer(n){const k=normName(n);if(!k)return null;let best=null,bs=0;db.customers.forEach(c=>{const x=normName(c.name);if(!x)return;const s=x===k?1:1-lev(x,k)/Math.max(x.length,k.length);if(s>bs){bs=s;best=c}});return bs>=0.72?best:null}
+async function callAI(payload){
+ const base=apiUrl();if(!base)throw new Error('Google Script not connected');if(!navigator.onLine)throw new Error('No internet');
+ const ctl=new AbortController(),t=setTimeout(()=>ctl.abort(),30000);
+ try{const r=await fetch(base,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload),signal:ctl.signal});return await r.json()}finally{clearTimeout(t)}
+}
+function fromAI(r){
+ const type=r.mode==='payment'?'payment':'credit';
+ let customer=null;const cn=String(r.customer||'').trim();
+ if(cn)customer=matchCustomer(cn)||{id:null,name:cn,phone:''};
+ let lines=[];
+ if(type==='payment'){const a=Number(r.paymentAmount||(r.items&&r.items[0]&&r.items[0].amount));if(a>0)lines=[{description:'Payment received',amount:a,productId:'',quantity:1,unit:'',rate:a,priceSource:'spoken'}]}
+ else lines=(r.items||[]).map(it=>{
+  const name=String(it.name||'').trim();if(!name&&!it.catalogName)return null;
+  const p=db.products.find(x=>x.name.trim()===String(it.catalogName||'').trim())||findCatalogProduct(it.catalogName||name);
+  const hasQ=Number(it.quantity)>0,q=hasQ?Number(it.quantity):1,unit=String(it.unit||'').trim();
+  const desc=((p?p.name:name)+(hasQ?' '+q+(unit?' '+unit:''):'')).trim();
+  let amount=null,src='missing';
+  if(Number(it.amount)>0){amount=Number(it.amount);src='spoken'}
+  else if(p&&Number(p.salePrice)>0){amount=Number(p.salePrice)*q;src='catalog'}
+  return {description:desc,amount,productId:p?p.id:'',productName:p?p.name:'',quantity:q,unit,rate:amount?amount/q:null,priceSource:src};
+ }).filter(Boolean);
+ const date=/^\d{4}-\d{2}-\d{2}$/.test(r.date||'')?r.date:null;
+ return {type,customer,lines,date,cash:r.mode==='cash',spoken:!!customer,raw:'',needsPrice:lines.some(l=>!(Number(l.amount)>0))};
+}
+async function understand(){
+ const box=document.getElementById('command'),text=box.value.trim();
+ if(!text)return toast('Speak or type an entry first');
+ const btn=document.getElementById('understand');btn.disabled=true;btn.textContent='🤖 Understanding…';
+ let d=null;
+ try{
+  const res=await callAI({action:'ai',text,today:today(),customers:db.customers.map(c=>c.name),products:db.products.map(p=>p.name)});
+  if(!res||!res.ok)throw new Error(res&&res.error||'AI error');
+  d=fromAI(res.result);
+  if(!d.lines.length)d=null;
+ }catch(err){console.warn('AI:',err);toast('AI not available — using basic understanding')}
+ if(!d)d=parse(text);
+ btn.disabled=false;btn.textContent='✨ Understand';
+ if(!d)return toast('Could not understand. Please try again.');
+ showDraft(d);
+}
+function showDraft(d){
+ const picked=customerFromPicker();
+ if(d.customer&&(d.customer.id||d.spoken)){}
+ else if(picked)d.customer=picked;
+ else if(!d.customer&&selected)d.customer=db.customers.find(c=>c.id===selected);
+ if(d.date)document.getElementById('entryDate').value=d.date;
+ d.date=document.getElementById('entryDate').value||today();
+ draft=d;
+ document.getElementById('preview').classList.add('show');
+ document.getElementById('previewTitle').textContent=d.type==='payment'?'Review payment / received money':'Review udhar / credit entry';
+ document.getElementById('previewDesc').textContent='Price comes from your product price list when available, or from the amount you spoke/typed. Quantity is kept separate.';
+ document.getElementById('draftCustomer').value=d.customer?.name||'';
+ document.getElementById('draftCustomer').setAttribute('list','customerOptions');
+ document.getElementById('draftCustomer').setAttribute('list','customerOptions');
+ document.getElementById('draftCustomer').oninput=e=>{
+   const n=e.target.value.trim();
+   const existing=db.customers.find(c=>c.name.toLowerCase()===n.toLowerCase());
+   draft.customer=existing|| (n?{id:null,name:n,phone:''}:null);
+ };
+ document.getElementById('parseWarning').textContent=d.needsPrice?'Some products have no saved price. Fill every red price box before saving.':(d.cash?'Cash bill detected — tap "Cash customer bill". ':'')+'Check each product and amount before saving.';
+ drawLines();
+ document.getElementById('preview').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function drawLines(){
+ let el=document.getElementById('lines');
+ el.innerHTML=draft.lines.map((l,i)=>`<div class="item">
+ <input value="${esc(l.description)}" data-i="${i}" data-k="description" aria-label="Product" list="productOptions" placeholder="Search product">
+ <input type="number" min="0" step=".01" placeholder="Price required" value="${l.amount??''}" class="${Number(l.amount)>0?'':'price-missing'}" data-i="${i}" data-k="amount" aria-label="Price">
+ <button class="red" data-del="${i}">×</button>
+ ${Number(l.amount)>0?'':`<div class="price-note">Price not found. Enter selling price to continue.</div>`}
+ </div>`).join('');
+ el.querySelectorAll('input').forEach(x=>x.oninput=()=>{
+  let line=draft.lines[+x.dataset.i],key=x.dataset.k;
+  if(key==='description'){
+   line.description=x.value;
+   const product=findCatalogProduct(x.value);
+   if(product){
+    const changedProduct=line.productId!==product.id;
+    line.productId=product.id;line.productName=product.name;
+    const q=extractQuantity(x.value);line.quantity=q.qty;line.unit=q.unit||product.unit||'';
+    if(changedProduct){
+     if(Number(product.salePrice)>0){line.amount=Number(product.salePrice)*q.qty;line.priceSource='catalog'}
+     else if(line.priceSource!=='manual'){line.amount=null;line.priceSource='missing'}
+    }else if((line.amount===null||line.amount===undefined||line.priceSource==='catalog'||line.priceSource==='missing')&&Number(product.salePrice)>0){
+     line.amount=Number(product.salePrice)*q.qty;line.priceSource='catalog';
+    }
+   }else{line.productId='';line.productName='';if(line.priceSource==='catalog'){line.amount=null;line.priceSource='missing'}}
+   const priceInput=x.parentElement.querySelector('[data-k="amount"]');
+   if(priceInput&&line.priceSource==='catalog')priceInput.value=line.amount??'';
+   if(priceInput){priceInput.classList.toggle('price-missing',!(Number(line.amount)>0));let note=x.parentElement.querySelector('.price-note');if(Number(line.amount)>0&&note)note.remove();else if(!(Number(line.amount)>0)&&!note){let n=document.createElement('div');n.className='price-note';n.textContent='Price not found. Enter selling price to continue.';x.parentElement.appendChild(n)}}
+  }else{
+   line.amount=x.value===''?null:Number(x.value);line.priceSource='manual';
+   x.classList.toggle('price-missing',!(Number(x.value)>0));let note=x.parentElement.querySelector('.price-note');if(Number(x.value)>0&&note)note.remove();else if(!(Number(x.value)>0)&&!note){let n=document.createElement('div');n.className='price-note';n.textContent='Price not found. Enter selling price to continue.';x.parentElement.appendChild(n)}
+  }
+  totalDraft();
+ });
+ el.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{draft.lines.splice(+b.dataset.del,1);drawLines()});
+ totalDraft();
+}
+function totalDraft(){document.getElementById('draftTotal').textContent='Total '+money(draft.lines.reduce((s,l)=>s+(Number(l.amount)||0),0))}
+function saveEntry(asCash){
+ if(!draft||!draft.lines.length)return toast('No items detected. Add an item and price before saving.');
+ if(draft.lines.some(l=>!String(l.description||'').trim()||!(Number(l.amount)>0)))return toast('Fill every red price box before confirming.');
+ if(asCash){learnProductsFromBill(draft.lines);makeCashBill(draft.lines);return}
+ let c=draft.customer;
+ if(!c?.id){
+  let old=db.customers.find(x=>x.name.toLowerCase()===c?.name?.toLowerCase());
+  if(old)c=old;
+  else if(c?.name){c={id:id(),name:c.name,phone:''};db.customers.push(c)}
+  else return toast('Select or add a customer');
+ }
+ learnProductsFromBill(draft.lines);
+ const now=Date.now();
+ draft.lines.forEach(l=>{
+  const q=Number(l.quantity||extractQuantity(l.description).qty||1);
+  db.entries.push({id:id(),customerId:c.id,date:draft.date||today(),description:l.description,
+   amount:Number(l.amount),type:draft.type,quantity:q,unit:l.unit||'',
+   rate:q>0?Number(l.amount)/q:Number(l.amount),productId:l.productId||'',createdAt:now});
+ });
+ selected=c.id;document.getElementById('command').value='';document.getElementById('entryDate').value=today();draft=null;
+ document.getElementById('preview').classList.remove('show');saveDB();
+ document.getElementById('layout').classList.add('hideList');toast('Saved. Syncing to Google Sheets…');
+}
+const SHOP={name:'BHAVANI PROVISION STORE',addr:'Patel Wadi Main Road, Jamnagar',mob:'6353194656'};
+let bill=null;
+function ddmm(d){const a=d.split('-');return a[2]+'-'+a[1]}
+function safeName(s){return String(s||'').trim().replace(/[\\/:*?"<>|]+/g,'').replace(/\s+/g,'_')}
+function fileName(date,who){return 'Bhavani_pro_'+ddmm(date)+(who?'_'+safeName(who):'')+'.pdf'}
+function stripQty(s){return String(s||'').replace(/(?<![\p{L}\p{M}\d])\d+(?:[.,]\d+)?\s*(?:kgs?|grams?|gm?s?|litres?|liters?|ltr|ml|l|pcs?|pkt|packets?|કિલો|કિગ્રા|ગ્રામ|લિટર|પેકેટ|નંગ)(?![\p{L}\p{M}])\.?/giu,' ').replace(/\s+/g,' ').trim()}
+function billName(l){const p=l.productId&&db.products.find(x=>x.id===l.productId);return p?p.name:(stripQty(l.description)||l.description)}
+function receiptHTML(o){return `<div class="rc-head"><div class="rc-name">${SHOP.name}</div><div>${SHOP.addr}</div><div>Mobile: ${SHOP.mob}</div></div><div class="rc-line"></div>
+<div class="rc-meta"><span>${o.metaL}</span><span>${o.metaR||''}</span></div>${o.who?`<div class="rc-who">Customer: <b>${esc(o.who)}</b></div>`:''}
+<div class="rc-title">${o.title}</div>
+<table><thead><tr><th>${o.first}</th><th>Product</th><th class="r">Amount</th></tr></thead><tbody>${o.rows.map(r=>`<tr><td>${r[0]}</td><td>${esc(r[1])}</td><td class="r">${r[2]}</td></tr>`).join('')||'<tr><td colspan="3">No purchases</td></tr>'}</tbody></table>
+${(o.extra||[]).map(x=>`<div class="rc-sum"><span>${x[0]}</span><span>${x[1]}</span></div>`).join('')}
+<div class="rc-total"><span>${o.totalLabel}</span><span>${o.total}</span></div><div class="rc-foot">Thank you for shopping with us!<br>Please visit again</div>`}
+async function renderBill(html,name,phone,title){
+ if(!window.html2canvas||!window.jspdf)return toast('PDF tool not loaded. Connect to internet once and reload the page.');
+ toast('Making PDF…');
+ try{
+  const el=document.getElementById('billSheet');el.innerHTML=html;
+  if(document.fonts&&document.fonts.ready)await document.fonts.ready;
+  const cv=await html2canvas(el,{scale:3,backgroundColor:'#ffffff'});
+  const w=80,hh=Math.max(81,cv.height/cv.width*w);
+  const pdf=new window.jspdf.jsPDF({unit:'mm',format:[w,hh],orientation:'portrait',compress:true});
+  pdf.addImage(cv.toDataURL('image/jpeg',0.95),'JPEG',0,0,w,hh);
+  bill={blob:pdf.output('blob'),name,phone:phone||''};
+  document.getElementById('billImg').src=cv.toDataURL('image/png');
+  document.getElementById('billTitle').textContent=title||'Bill ready';
+  document.getElementById('billName').textContent=name;
+  document.getElementById('billModalBg').classList.add('show');
+ }catch(err){console.error(err);toast('Could not create PDF. Try again.')}
+}
+function downloadBill(){if(!bill)return;const a=document.createElement('a');a.href=URL.createObjectURL(bill.blob);a.download=bill.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
+async function shareBill(){
+ if(!bill)return;
+ const f=new File([bill.blob],bill.name,{type:'application/pdf'});
+ if(navigator.canShare&&navigator.canShare({files:[f]})){
+  try{await navigator.share({files:[f],title:bill.name,text:'Bhavani Provision Store bill'})}catch(e){if(e.name!=='AbortError')toast('Share failed. Use Download PDF.')}
+  return;
+ }
+ downloadBill();
+ const ph=String(bill.phone||'').replace(/\D/g,'').slice(-10);
+ window.open('https://wa.me/'+(ph.length===10?'91'+ph:'')+'?text='+encodeURIComponent('Bhavani Provision Store bill ('+bill.name+') — attaching the downloaded PDF.'),'_blank');
+ toast('PDF downloaded. Attach it in WhatsApp.');
+}
+function makeCashBill(lines){
+ const dt=(draft&&draft.date)||today(),total=lines.reduce((s,l)=>s+Number(l.amount),0);
+ renderBill(receiptHTML({metaL:'Date: '+fmt(dt),title:'CASH BILL',first:'Sr',rows:lines.map((l,i)=>[i+1,billName(l),money(l.amount)]),total:money(total),totalLabel:'TOTAL'}),fileName(dt,''),'','Cash bill ready');
+}
+function ledgerPDF(){
+ const c=db.customers.find(x=>x.id===selected);if(!c)return;
+ const month=document.getElementById('statementMonth')?.value||today().slice(0,7);
+ const [yy,mm]=month.split('-').map(Number);
+ const from=month+'-01',to=month+'-'+String(new Date(yy,mm,0).getDate()).padStart(2,'0');
+ const all=db.entries.filter(e=>e.customerId===c.id).sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+ const sgn=e=>e.type==='credit'?Number(e.amount):-Number(e.amount);
+ const opening=all.filter(e=>e.date<from).reduce((n,e)=>n+sgn(e),0);
+ const period=all.filter(e=>e.date>=from&&e.date<=to),buys=period.filter(e=>e.type==='credit');
+ const credits=buys.reduce((n,e)=>n+Number(e.amount),0),paid=period.filter(e=>e.type==='payment').reduce((n,e)=>n+Number(e.amount),0);
+ const closing=opening+credits-paid,label=new Date(yy,mm-1,1).toLocaleDateString('en-IN',{month:'short',year:'numeric'});
+ const extra=[['This month purchases',money(credits)]];
+ if(opening)extra.push(['Previous balance',money(opening)]);
+ if(paid)extra.push(['Payments received','− '+money(paid)]);
+ const t=today();
+ renderBill(receiptHTML({metaL:'Date: '+fmt(t),metaR:'Month: '+label,who:c.name,title:'MONTHLY STATEMENT',first:'Date',rows:buys.map(e=>[fmt(e.date).slice(0,5),billName(e),money(e.amount)]),extra,total:money(closing),totalLabel:'BALANCE DUE'}),fileName(t,c.name),c.phone,'Statement ready');
+}
+document.getElementById('billClose').onclick=()=>document.getElementById('billModalBg').classList.remove('show');
+document.getElementById('billShare').onclick=shareBill;document.getElementById('billDl').onclick=downloadBill;
+document.getElementById('add').onclick=()=>modal();document.getElementById('saveCustomer').onclick=saveCustomer;document.getElementById('closeModal').onclick=()=>document.getElementById('modalbg').classList.remove('show');document.getElementById('search').oninput=render;document.getElementById('understand').onclick=understand;document.getElementById('save').onclick=()=>saveEntry(false);document.getElementById('cashBill').onclick=()=>saveEntry(true);document.getElementById('cancel').onclick=()=>{draft=null;document.getElementById('preview').classList.remove('show')};document.getElementById('addLine').onclick=()=>{draft.lines.push({description:'New item',amount:0});drawLines()};document.getElementById('statementMonth').value=today().slice(0,7);document.getElementById('pdfLedger').onclick=ledgerPDF;document.getElementById('edit').onclick=()=>modal(db.customers.find(c=>c.id===selected));document.getElementById('back').onclick=()=>document.getElementById('layout').classList.remove('hideList');
+const MIC_KEY='bhavani_mic_granted';let mediaRec=null,mediaStream=null,recChunks=[];
+function micModal(title,body,btns){document.getElementById('micTitle').textContent=title;document.getElementById('micBody').innerHTML=body;const box=document.getElementById('micBtns');box.innerHTML='';btns.forEach(b=>{const x=document.createElement('button');x.className=b.cls||'light';x.textContent=b.t;x.onclick=()=>{document.getElementById('micModalBg').classList.remove('show');b.fn&&b.fn()};box.appendChild(x)});document.getElementById('micModalBg').classList.add('show')}
+function showMicHelp(kind){
+ const m={
+  denied:['Microphone is blocked','<p>Allow the microphone once — the phone will remember it.</p><b>Android (Chrome):</b> tap the lock icon next to the web address → Permissions → Microphone → Allow, then reload.<br><b>iPhone (Safari):</b> tap <b>aA</b> in the address bar → Website Settings → Microphone → Allow.<br><b>Computer:</b> click the lock icon → Microphone → Allow.<p>માઇક્રોફોનની પરવાનગી Allow કરો અને પેજ રીલોડ કરો.</p>'],
+  insecure:['Open the secure (https) link','<p>Voice works only on an <b>https://</b> website link, not on a file opened from the phone. Host the page (Netlify, GitHub Pages) and open that link.</p>'],
+  unsupported:['Voice not supported','<p>This browser cannot record voice. Open the website in the latest Chrome (Android) or Safari (iPhone), or type the entry.</p>'],
+  nomic:['No microphone found','<p>No microphone was detected on this device. Check the headset or phone microphone.</p>']}[kind]||['Microphone problem','<p>Please try again.</p>'];
+ micModal(m[0],m[1],[{t:'Close'},...(kind==='denied'?[{t:'Try again',cls:'green',fn:()=>document.getElementById('listen').click()}]:[])]);
+}
+function askMicIntro(){return new Promise(res=>micModal('Allow microphone','<p>To add entries by voice, the app needs your microphone. Your phone will ask <b>once</b> — tap <b>Allow</b>. This choice is remembered.</p><p>બોલીને એન્ટ્રી કરવા માટે માઇક્રોફોન જોઈએ છે. આગળના પ્રશ્નમાં <b>Allow</b> દબાવો.</p>',[{t:'Not now',fn:()=>res(false)},{t:'Allow microphone',cls:'green',fn:()=>res(true)}]))}
+async function ensureMic(){
+ if(!window.isSecureContext){showMicHelp('insecure');return false}
+ if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){showMicHelp('unsupported');return false}
+ let st='unknown';try{st=(await navigator.permissions.query({name:'microphone'})).state}catch{}
+ if(st==='denied'){showMicHelp('denied');return false}
+ if(st!=='granted'&&!localStorage.getItem(MIC_KEY)&&!(await askMicIntro()))return false;
+ try{const s=await navigator.mediaDevices.getUserMedia({audio:true});s.getTracks().forEach(t=>t.stop());localStorage.setItem(MIC_KEY,'1');return true}
+ catch(e){localStorage.removeItem(MIC_KEY);showMicHelp(e.name==='NotFoundError'?'nomic':'denied');return false}
+}
+function setListenUI(on,label){const b=document.getElementById('listen');b.classList.toggle('rec',on);b.textContent=on?(label||'■ Stop & understand'):'🎙 Tap & speak'}
+function blobToB64(b){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result).split(',')[1]);r.onerror=rej;r.readAsDataURL(b)})}
+async function startAIListen(lang){
+ if(!window.MediaRecorder)return showMicHelp('unsupported');
+ try{mediaStream=await navigator.mediaDevices.getUserMedia({audio:true})}catch{return showMicHelp('denied')}
+ const mime=['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg'].find(m=>MediaRecorder.isTypeSupported(m))||'';
+ recChunks=[];mediaRec=new MediaRecorder(mediaStream,mime?{mimeType:mime}:undefined);
+ mediaRec.ondataavailable=e=>{if(e.data&&e.data.size)recChunks.push(e.data)};
+ const auto=setTimeout(()=>{if(mediaRec&&mediaRec.state==='recording')mediaRec.stop()},60000);
+ mediaRec.onstop=async()=>{
+  clearTimeout(auto);mediaStream.getTracks().forEach(t=>t.stop());
+  const type=(mediaRec&&mediaRec.mimeType)||mime||'audio/webm',blob=new Blob(recChunks,{type});mediaRec=null;setListenUI(false);
+  if(blob.size<1500)return toast('No voice recorded. Try again.');
+  toast('AI is listening to your voice…');
+  try{
+   const hint=db.customers.slice(0,25).map(c=>c.name).concat(db.products.slice(0,40).map(p=>p.name)).join(', ').slice(0,400);
+   const res=await callAI({action:'transcribe',audio:await blobToB64(blob),mime:type,lang:lang||'gu',hint});
+   if(!res||!res.ok)throw new Error(res&&res.error||'failed');
+   document.getElementById('command').value=res.text;understand();
+  }catch(err){toast('Voice AI failed: '+err.message)}
+ };
+ mediaRec.start();setListenUI(true);toast('Recording… tap again when done');
+}
+function startBrowserListen(SR,lang){
+ recognition=new SR();recognition.lang=lang;recognition.interimResults=true;recognition.continuous=true;
+ let heard='',fallback=false;setListenUI(true);toast('Listening… speak now');
+ recognition.onresult=e=>{let t='';for(let i=0;i<e.results.length;i++)t+=' '+e.results[i][0].transcript;heard=t.trim();document.getElementById('command').value=heard};
+ recognition.onerror=e=>{
+  if(e.error==='not-allowed'||e.error==='service-not-allowed'){localStorage.removeItem(MIC_KEY);showMicHelp('denied')}
+  else if(e.error==='network'||e.error==='language-not-supported'){fallback=true;toast('Switching to AI listening…')}
+  else if(e.error==='no-speech')toast('No speech heard. Speak closer to the microphone.');
+  else if(e.error==='audio-capture')showMicHelp('nomic');
+ };
+ recognition.onend=()=>{recognition=null;setListenUI(false);if(fallback)return startAIListen(lang.slice(0,2));if(heard.trim())understand()};
+ try{recognition.start()}catch{recognition=null;setListenUI(false);startAIListen(lang.slice(0,2))}
+}
+document.getElementById('listen').onclick=async()=>{
+ if(recognition){recognition.stop();return}
+ if(mediaRec){mediaRec.stop();return}
+ if(!(await ensureMic()))return;
+ const SR=window.SpeechRecognition||window.webkitSpeechRecognition,mode=document.getElementById('voiceLanguage').value;
+ if(mode==='ai'||!SR)return startAIListen(mode==='ai'?'gu':mode.slice(0,2));
+ startBrowserListen(SR,mode);
+};
+
+let catalogWorking=[];
+function openProducts(){
+ catalogWorking=db.products.map(p=>({...p}));
+ document.getElementById('catalogSearch').value='';
+ renderCatalogRows();
+ document.getElementById('productModalBg').classList.add('show');
+}
+function renderCatalogRows(){
+ const q=document.getElementById('catalogSearch').value.trim().toLowerCase();
+ const shown=catalogWorking.map((p,i)=>({...p,_index:i})).filter(p=>!q||p.name.toLowerCase().includes(q)||(p.category||'').toLowerCase().includes(q));
+ document.getElementById('catalogCount').textContent=`${shown.length} products shown • ${catalogWorking.length} total`;
+ document.getElementById('catalogRows').innerHTML=shown.map(p=>catalogRow(p,p._index)).join('')||'<div class="empty">No matching products</div>';
+ document.querySelectorAll('#catalogRows .catalog-row').forEach(row=>{
+  const i=Number(row.dataset.row);
+  row.querySelector('.prod-name').oninput=e=>{catalogWorking[i].name=e.target.value};
+  row.querySelector('.prod-price').oninput=e=>{catalogWorking[i].salePrice=e.target.value===''?'':Number(e.target.value)};
+ });
+}
+function catalogRow(p,i){return `<div class="catalog-row" data-row="${i}"><div><label>${esc(p.category||'Product')}</label><input class="prod-name" value="${esc(p.name)}" placeholder="Product name"></div><div><label>Selling price (₹)</label><input class="prod-price" type="number" min="0" step=".01" value="${p.salePrice??''}" placeholder="Set price"></div></div>`}
+function collectCatalog(){return catalogWorking.map(p=>({...p,name:String(p.name||'').trim(),salePrice:p.salePrice===''?'':Number(p.salePrice)})).filter(p=>p.name)}
+document.getElementById('productsBtn').onclick=openProducts;
+document.getElementById('closeProducts').onclick=()=>document.getElementById('productModalBg').classList.remove('show');
+document.getElementById('addProductRow').onclick=()=>{catalogWorking.push({id:id(),name:'',category:'Other',salePrice:''});document.getElementById('catalogSearch').value='';renderCatalogRows()}; 
+document.getElementById('catalogSearch').oninput=renderCatalogRows;
+document.getElementById('saveProducts').onclick=()=>{
+ const products=collectCatalog();
+ const duplicate=products.find((p,i)=>products.findIndex(x=>x.name.toLowerCase()===p.name.toLowerCase())!==i);
+ if(duplicate)return toast('Duplicate product name: '+duplicate.name);
+ db.products=products;saveDB();document.getElementById('productModalBg').classList.remove('show');toast('Product price list saved');
+};
+document.getElementById('entryCustomer').addEventListener('change',()=>{
+ const c=customerFromPicker();if(c){selected=c.id;render();document.getElementById('entryCustomer').value=c.name;}
+});
+document.getElementById('entryCustomer').addEventListener('input',()=>{
+ const c=customerFromPicker();if(c){selected=c.id;render()}
+});
+document.getElementById('statementMonth').value=today().slice(0,7);document.getElementById('statementMonth').value=today().slice(0,7);render();updateCustomerOptions();setSyncStatus();scheduleRetry();document.getElementById('entryDate').value=today();if(apiUrl())connectAndLoad();
+</script></body></html>
